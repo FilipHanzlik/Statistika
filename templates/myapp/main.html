@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="row">
+        <form action="{% url 'myapp:evaluate' %}" class="col s12" method="post">
+            {% csrf_token %}
+
+            <div class="card-panel teal lighten-2 center white-text">Základní údaje</div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <select name="pohlavi">
+                        <option value="muz">Muž</option>
+                        <option value="zena">Žena</option>
+                    </select>
+                    <label>Pohlaví</label>
+                </div>
+            </div>
+
+            <p class="range-field">Věk:
+                <input type="range" min="5" max="100" name="vek">
+            </p>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <input type="text" class="" name="vyska" id="vyska">
+                    <label for="vyska">Výška (v cm)</label>
+                    <span class="helper-text" data-error="chyba" data-success="">helper text</span>
+                </div>
+            </div>
+
+            <div class="card-panel teal lighten-2 center white-text">Informace o spánku</div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="delka-spanku" name="delka-spanku" type="text" class="">
+                    <label for="delka-spanku">Délka spánku za normálního pracovního dne (v hodinách)</label>
+                    <span class="helper-text" data-error="chyba" data-success="">helper text</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="cas-vstavani" class="timepicker" placeholder="Čas kdy vstávám z postele za normálního pracovního dne">
+                </div>
+            </div>
+
+            <div class="card-panel teal lighten-2 center white-text">Informace o technologiích</div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <select name="OS-pocitace">
+                        <option value="Windows">Windows</option>
+                        <option value="Mac-OS">MAC OS</option>
+                        <option value="Linux">Linux</option>
+                        <option value="Ne-pocitac">Nepoužívám počítač</option>
+                    </select>
+                    <label>Operační systém počítače</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <select name="typ-mobilu">
+                        <option value="Android">Android</option>
+                        <option value="IOS">IOS</option>
+                        <option value="tlacitkovy">Tlačítkový</option>
+                        <option value="ne-mobil">Nemam mobil</option>
+                    </select>
+                    <label>Typ mobilu</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="socialni-site" name="socialni-site" type="text" class="">
+                    <label for="socialni-site">Čas denně strávení na sociálních sítích (v hodinách)</label>
+                </div>
+            </div>
+
+            <button class="btn waves-effect waves-light" type="submit">Odeslat
+                <i class="material-icons right">send</i>
+            </button>
+
+        </form>
+    </div>
+</div>
+{% endblock content %}
