@@ -2,13 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ad00a507-6d4d-4d95-acdc-8929d48f3c37" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/templates/myapp/not_enough/5_a_vic.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myapp/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/statistika/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/statistika/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/test.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/myapp/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/myapp/main.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +19,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -37,6 +38,11 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Filip\vsechno\python\projects\statistika\templates\myapp\not_enough" />
+    </key>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -59,13 +65,21 @@
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="92" y="92" width="1416" height="676" key="DiffContextDialog/0.0.1600.860@0.0.1600.860" timestamp="1592507676331" />
+    <state width="498" height="446" key="SwitcherDM" timestamp="1592670578018">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state width="498" height="446" key="SwitcherDM/0.0.1600.860@0.0.1600.860" timestamp="1592670578018" />
     <state x="609" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1592600195418">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
     <state x="609" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1600.860@0.0.1600.860" timestamp="1592600195418" />
-    <state x="463" y="180" key="search.everywhere.popup" timestamp="1592646609581">
+    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1592675239722">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
-    <state x="463" y="180" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1592646609581" />
+    <state x="463" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1600.860@0.0.1600.860" timestamp="1592675239722" />
+    <state x="522" y="342" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1592661139058">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="522" y="342" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.0.1600.860@0.0.1600.860" timestamp="1592661139058" />
   </component>
 </project>
