@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>...</title>
-</head>
-<body>
-    <p>Ok</p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+
+<img src="data:image/png;base64,{{ vysky_hist }}">
+<img src="data:image/png;base64,{{ vysky_cary }}">
+
+{% endblock content %}

@@ -2,14 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ad00a507-6d4d-4d95-acdc-8929d48f3c37" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/myapp/not_enough/5_a_vic.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/statistika/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/statistika/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/myapp/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/myapp/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/myapp/results.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/myapp/results.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +63,10 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.css" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="427" y="0" key="CommitChangelistDialog2" timestamp="1593372060415">
+      <screen x="0" y="0" width="1600" height="860" />
+    </state>
+    <state x="427" y="0" key="CommitChangelistDialog2/0.0.1600.860@0.0.1600.860" timestamp="1593372060415" />
     <state x="92" y="92" width="1416" height="676" key="DiffContextDialog" timestamp="1592507676331">
       <screen x="0" y="0" width="1600" height="860" />
     </state>
