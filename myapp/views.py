@@ -1,7 +1,7 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from .models import Data, Graphs
-from functions import validate_form_input, create_graphs_about_height
+from functions import validate_form_input, create_graphs
 
 def main(request):
     return render(request, 'myapp/main.html')
@@ -20,8 +20,7 @@ def evaluate(request):
                 delkaspanku=form['delka-spanku'].replace(',', '.'),
                 casvstavani=form['cas-vstavani'],
                 TypMobilu=form['typ-mobilu'],
-                CasNaSocialnich=form['socialni-site'].replace(',', '.'),
-                SpokojenySeSkolnimSys=form['skolstvi']
+                CasNaSocialnich=form['socialni-site'].replace(',', '.')
             )
             return HttpResponseRedirect(reverse('myapp:results'))
         else:
@@ -55,11 +54,22 @@ def results(request):
     else:
         if Graphs.objects.all():
             Graphs.objects.all().delete()
-        create_graphs_about_height()
+        create_graphs()
         graphs = Graphs.objects.all()
         graphs = graphs[len(graphs) - 1]
         context = {
+            'pohlavi_kolac': graphs.pohlavi_kolac,
+            'pohlavi_hist': graphs.pohlavi_hist,
             'vysky_hist': graphs.vysky_hist,
-            'vysky_cary': graphs.vysky_cary
+            'vysky_hist_muzi': graphs.vysky_hist_muzi,
+            'vysky_hist_zeny': graphs.vysky_hist_zeny,
+            'vysky_grafy': graphs.vysky_graph,
+            'vysky_grafy_muzi_a_zeny': graphs.vysky_graph_muzi_a_zeny,
+            'delky_spanku_hist': graphs.delky_spanku_hist,
+            'delky_spanku_hist_muzi': graphs.delky_spanku_hist_muzi,
+            'delky_spanku_hist_zeny': graphs.delky_spanku_hist_zeny,
+            'delky_spanku_grafy': graphs.delky_spanku_graph,
+            'delky_spanku_grafy_muzi_a_zeny': graphs.delky_spanku_graph_muzi_a_zeny,
+            'typy_mobilu_kolac': graphs.typy_mobilu_kolac
         }
         return render(request, 'myapp/results.html', context=context)

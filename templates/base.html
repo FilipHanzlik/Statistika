@@ -17,24 +17,27 @@
             <div class="container nav-wrapper">
                 <a href="" class="brand-logo"><i class="large material-icons">insert_chart</i>Projekt Statistika</a>
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="https://gjn.cz">Gymnázium Jana Nerudy</a></li>
+                    <li><a href="https://gjn.cz" target="_blank">Gymnázium Jana Nerudy</a></li>
                 </ul>
             </div>
         </nav>
     </header>
 
     <main>
-        <div class="container">
-            {% block content %}
+        {% block content %}
 
-            {% endblock content %}
-        </div>
+        {% endblock content %}
     </main>
     <script type="text/javascript" src="/static/js/javascripts.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('select').formSelect();
         });
+    </script>
+    <script type="text/javascript">
+          $(document).ready(function(){
+            $('.tabs').tabs();
+          });
     </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>

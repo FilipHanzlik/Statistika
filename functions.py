@@ -3,10 +3,8 @@ import pandas as pd
 import io
 import urllib, base64
 import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
 import seaborn as sns
 from myapp.models import Data, Graphs
-from django.core.files.images import ImageFile
 
 
 def validate_form_input(dict):
@@ -77,10 +75,23 @@ def validate_form_input(dict):
     return (passed, result)
 
 
-def create_graphs_about_height():
-    df = pd.DataFrame(list(Data.objects.all().values('pohlavi', 'vyska')))
+def create_graphs():
+    df = pd.DataFrame(list(Data.objects.all().values('pohlavi', 'vyska', 'delkaspanku', 'TypMobilu', 'CasNaSocialnich')))
 
-    # uspořádání dat a potřebných proměnných
+    ## uspořádání dat a potřebných proměnných
+
+    graphs = Graphs()
+
+    # pohlavi
+
+    pocet_muzu = len(df.loc[df['pohlavi'] == 'muz'])
+    pocet_zen = len(df) - pocet_muzu
+    procent_muzu = round(pocet_muzu / (pocet_muzu + pocet_zen), 2) * 100
+    procent_zen = 100 - procent_muzu
+    procenta_pohlavi = [procent_muzu, procent_zen]
+    nazvy_kolac_pohlavi = ["Muži", "Ženy"]
+
+    # vysky
 
     vysky = df['vyska'].to_numpy()
     vysky_median, vysky_prumer = np.median(vysky), round(np.mean(vysky), 2)
@@ -92,7 +103,7 @@ def create_graphs_about_height():
             vysky_prumer -= 0.5 - abs(vysky_median - vysky_prumer)
 
     muzi_vysky = df.loc[df['pohlavi'] == 'muz', ['vyska']]['vyska'].to_numpy()
-    muzi_vysky_median, muzi_vysky_prumer = np.median(muzi_vysky), round(np.mean(muzi_vysky), 2)
+    muzi_vysky_median, muzi_vysky_prumer = np.median(muzi_vysky), np.mean(muzi_vysky)
     muzi_vysky_bin = min(20, len(muzi_vysky) // 2)
     if abs(muzi_vysky_median - muzi_vysky_prumer) < 0.5:
         if muzi_vysky_median < muzi_vysky_prumer:
@@ -101,7 +112,7 @@ def create_graphs_about_height():
             muzi_vysky_prumer -= 0.5 - abs(muzi_vysky_median - muzi_vysky_prumer)
 
     zeny_vysky = df.loc[df['pohlavi'] == 'zena', ['vyska']]['vyska'].to_numpy()
-    zeny_vysky_median, zeny_vysky_prumer = np.median(zeny_vysky), round(np.mean(zeny_vysky), 2)
+    zeny_vysky_median, zeny_vysky_prumer = np.median(zeny_vysky), np.mean(zeny_vysky)
     zeny_vysky_bin = min(20, len(zeny_vysky) // 2)
     if abs(zeny_vysky_median - zeny_vysky_prumer) < 0.5:
         if zeny_vysky_median < zeny_vysky_prumer:
@@ -109,36 +120,130 @@ def create_graphs_about_height():
         else:
             zeny_vysky_prumer -= 0.5 - abs(zeny_vysky_median - zeny_vysky_prumer)
 
-    # histogramy
+    # delka spanku
 
-    gs = gridspec.GridSpec(2, 2)
-    fig = plt.figure(figsize=(9, 9))
+    delky_spanku = df['delkaspanku']
+    delky_spanku_prumer, delky_spanku_median = np.mean(delky_spanku), np.median(delky_spanku)
+    delky_spanku_bin = 20
+    if abs(vysky_median - delky_spanku_prumer) < 0.5:
+        if delky_spanku_median < delky_spanku_prumer:
+            delky_spanku_prumer += 0.5 - abs(delky_spanku_median - delky_spanku_prumer)
+        else:
+            delky_spanku_prumer -= 0.5 - abs(delky_spanku_median - delky_spanku_prumer)
 
-    # create subplots
-    ax1 = fig.add_subplot(gs[0, 0])
-    ax2 = fig.add_subplot(gs[0, 1])
-    ax3 = fig.add_subplot(gs[1, :])
+    delky_spanku_muzi = df.loc[df['pohlavi'] == 'muz', ['delkaspanku']]['delkaspanku'].to_numpy()
+    delky_spanku_muzi_prumer, delky_spanku_muzi_median = np.mean(delky_spanku_muzi), np.median(delky_spanku_muzi)
+    delky_spanku_muzi_bin = min(20, len(delky_spanku_muzi) // 2)
+    if abs(delky_spanku_muzi_median - delky_spanku_muzi_prumer) < 0.5:
+        if delky_spanku_muzi_median < delky_spanku_muzi_prumer:
+            delky_spanku_muzi_prumer += 0.5 - abs(delky_spanku_muzi_median - delky_spanku_muzi_prumer)
+        else:
+            delky_spanku_muzi_prumer -= 0.5 - abs(delky_spanku_muzi_median - delky_spanku_muzi_prumer)
 
-    # histogram muži
-    ax1.hist(muzi_vysky, muzi_vysky_bin, rwidth=0.9)
-    ax1.axvline(muzi_vysky_prumer, color="red", linestyle="--", label=f"průměr: {muzi_vysky_prumer:.2f} cm")
-    ax1.axvline(muzi_vysky_median, color="purple", linestyle="--", label=f"median: {muzi_vysky_median:.2f} cm")
-    ax1.set(xlabel="Výška", ylabel="Počet lidí", title="Muži")
-    ax1.legend()
+    delky_spanku_zeny = df.loc[df['pohlavi'] == 'zena', ['delkaspanku']]['delkaspanku'].to_numpy()
+    delky_spanku_zeny_prumer, delky_spanku_zeny_median = np.mean(delky_spanku_zeny), np.median(delky_spanku_zeny)
+    delky_spanku_zeny_bin = min(20, len(delky_spanku_zeny) // 2)
+    if abs(delky_spanku_zeny_median - delky_spanku_zeny_prumer) < 0.5:
+        if delky_spanku_zeny_median < delky_spanku_zeny_prumer:
+            delky_spanku_zeny_prumer += 0.5 - abs(delky_spanku_zeny_median - delky_spanku_zeny_prumer)
+        else:
+            delky_spanku_zeny_prumer -= 0.5 - abs(delky_spanku_zeny_median - delky_spanku_zeny_prumer)
 
-    # histogram ženy
-    ax2.hist(zeny_vysky, zeny_vysky_bin, rwidth=0.9)
-    ax2.axvline(zeny_vysky_prumer, color="red", linestyle="--", label=f"průměr: {zeny_vysky_prumer:.2f} cm")
-    ax2.axvline(zeny_vysky_median, color="purple", linestyle="--", label=f"median: {zeny_vysky_median:.2f} cm")
-    ax2.set(xlabel="Výška", ylabel="Počet lidí", title="Ženy")
-    ax2.legend()
+    # kolacovy graf pro typ mobilu
+
+    odpovedi_pro_typy_mobilu = list(df['TypMobilu'].to_numpy())
+    typy_mobilu = list(set(odpovedi_pro_typy_mobilu))
+    typy_mobilu_a_jejich_pocty = {}
+
+    for typ_mobilu in typy_mobilu:
+        typy_mobilu_a_jejich_pocty[typ_mobilu] = odpovedi_pro_typy_mobilu.count(typ_mobilu)
+
+    nazvy_typy_mobilu = sorted(typy_mobilu_a_jejich_pocty, key=typy_mobilu_a_jejich_pocty.get, reverse=True) # seřadí slovník podle počtu výskytů a vrátí seznam názvů
+    procenta_typy_mobilu = []
+
+    for typ_mobilu in nazvy_typy_mobilu:
+        procenta_typy_mobilu.append(round((typy_mobilu_a_jejich_pocty[typ_mobilu] / sum(typy_mobilu_a_jejich_pocty.values()))*100, 2))
+
+    for i in range(len(nazvy_typy_mobilu)):
+        nazvy_typy_mobilu[i] = f"{nazvy_typy_mobilu[i]} ({procenta_typy_mobilu[i]}%)"
+
+    # Cas na soc. sítích všichni
+
+    cas_na_soc = df['CasNaSocialnich']
+    cas_na_soc_prumer, cas_na_soc_median = np.mean(cas_na_soc), np.median(cas_na_soc)
+    cas_na_soc_bin = 20
+
+
+
+    ## grafy
+
+    # kolacovy graf pohlavi
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.pie(procenta_pohlavi, labels=nazvy_kolac_pohlavi, shadow=True, explode=[0.05, 0], startangle=90, autopct="%1.1f%%")
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+
+    graphs.pohlavi_kolac = uri
+
+    # histogram pohlavi
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+    ax.bar(["Muži", "Ženy"], [pocet_muzu, pocet_zen], color=["blue", "orange"])
+    ax.set(ylabel="Počet lidí")
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+
+    graphs.pohlavi_hist = uri
+
+    # histogram vysky muži
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+    ax.hist(muzi_vysky, muzi_vysky_bin, rwidth=0.9)
+    ax.axvline(muzi_vysky_prumer, color="red", linestyle="--", label=f"průměr: {muzi_vysky_prumer:.2f} cm")
+    ax.axvline(muzi_vysky_median, color="purple", linestyle="--", label=f"median: {muzi_vysky_median:.2f} cm")
+    ax.set(xlabel="Výška (v cm)", ylabel="Počet lidí")
+    ax.legend()
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+
+    graphs.vysky_hist_muzi = uri
+
+    # histogram vysky ženy
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+    ax.hist(zeny_vysky, zeny_vysky_bin, rwidth=0.9)
+    ax.axvline(zeny_vysky_prumer, color="red", linestyle="--", label=f"průměr: {zeny_vysky_prumer:.2f} cm")
+    ax.axvline(zeny_vysky_median, color="purple", linestyle="--", label=f"median: {zeny_vysky_median:.2f} cm")
+    ax.set(xlabel="Výška (v cm)", ylabel="Počet lidí")
+    ax.legend()
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+
+    graphs.vysky_hist_zeny = uri
 
     # histogram všichni
-    ax3.hist(vysky, vysky_bin, rwidth=0.9)
-    ax3.axvline(vysky_prumer, color="red", linestyle="--", label=f"průměr: {vysky_prumer:.2f} cm")
-    ax3.axvline(vysky_median, color="purple", linestyle="--", label=f"median: {vysky_median:.2f} cm")
-    ax3.set(xlabel="Výška", ylabel="Počet lidí", title="Všichni")
-    ax3.legend()
+    fig, ax = plt.subplots(figsize=(10, 10))
+    ax.hist(vysky, vysky_bin, rwidth=0.9)
+    ax.axvline(vysky_prumer, color="red", linestyle="--", label=f"průměr: {vysky_prumer:.2f} cm")
+    ax.axvline(vysky_median, color="purple", linestyle="--", label=f"median: {vysky_median:.2f} cm")
+    ax.set(xlabel="Výška (v cm)", ylabel="Počet lidí")
+    ax.legend()
 
     buf = io.BytesIO()
     plt.savefig(buf, format="png")
@@ -146,26 +251,14 @@ def create_graphs_about_height():
     string = base64.b64encode(buf.read())
     uri = urllib.parse.quote(string)
 
-    graphs = Graphs()
     graphs.vysky_hist = uri
 
-    # křivky
+    # křivky výšky všichni
 
-    gs = gridspec.GridSpec(2, 2)
+    fig, ax = plt.subplots(figsize=(10, 10))
 
-    fig = plt.figure(figsize=(10, 10))
-
-    ax1 = fig.add_subplot(gs[0, :])
-    ax2 = fig.add_subplot(gs[1, :])
-
-    sns.distplot(muzi_vysky, hist=False, color="blue", label="Muži", kde_kws={'shade': True, 'linewidth': 3}, ax=ax1)
-    sns.distplot(zeny_vysky, hist=False, color="red", label="Ženy", kde_kws={'shade': True, 'linewidth': 3}, ax=ax1)
-    ax1.set(xlabel="výška (v cm)", ylabel="hustota pravděpodobnosti")
-
-    # sns.distplot(muzi_vysky, hist=False, color="blue", label="Muži", ax=ax2)
-    # sns.distplot(zeny_vysky, hist=False, color="red", label="Ženy", ax=ax2)
-    sns.distplot(vysky, hist=False, color="green", label="Všichni", ax=ax2, kde_kws={'shade': True, 'linewidth': 3})
-    ax2.set(xlabel="výška (v cm)", ylabel="hustota pravděpodobnosti")
+    sns.distplot(vysky, hist=False, color="green", label="Všichni", ax=ax, kde_kws={'shade': True, 'linewidth': 3})
+    ax.set(xlabel="výška (v cm)", ylabel="hustota pravděpodobnosti")
 
     buf = io.BytesIO()
     plt.savefig(buf, format="png")
@@ -173,5 +266,121 @@ def create_graphs_about_height():
     string = base64.b64encode(buf.read())
     uri = urllib.parse.quote(string)
 
-    graphs.vysky_cary = uri
+    graphs.vysky_graph = uri
+
+    # křivky výšky muži a ženy
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+
+    sns.distplot(muzi_vysky, hist=False, color="blue", label="Muži", kde_kws={'shade': True, 'linewidth': 3}, ax=ax)
+    sns.distplot(zeny_vysky, hist=False, color="red", label="Ženy", kde_kws={'shade': True, 'linewidth': 3}, ax=ax)
+    ax.set(xlabel="výška (v cm)", ylabel="hustota pravděpodobnosti")
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+
+    graphs.vysky_graph_muzi_a_zeny = uri
+
+    # delka_spanku histopgramy všichni
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+
+    ax.hist(delky_spanku, delky_spanku_bin, rwidth=0.95)
+    ax.axvline(delky_spanku_prumer, color="red", linestyle="--", label=f"průměr: {delky_spanku_prumer:.2f}")
+    ax.axvline(delky_spanku_median, color="purple", linestyle="--", label=f"median: {delky_spanku_median:.2f}")
+    ax.set(xlabel="hodiny", ylabel="počet lidí")
+    ax.legend()
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+
+    graphs.delky_spanku_hist = uri
+
+    # delka_spanku histopgramy muži
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+
+    ax.hist(delky_spanku_muzi, delky_spanku_muzi_bin, rwidth=0.95)
+    ax.axvline(delky_spanku_muzi_prumer, color="red", linestyle="--", label=f"průměr: {delky_spanku_muzi_prumer:.2f}")
+    ax.axvline(delky_spanku_muzi_median, color="purple", linestyle="--", label=f"median: {delky_spanku_muzi_median:.2f}")
+    ax.set(xlabel="hodiny", ylabel="počet lidí")
+    ax.legend()
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+
+    graphs.delky_spanku_hist_muzi = uri
+
+    # delka_spanku histopgramy ženy
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+
+    ax.hist(delky_spanku_zeny, delky_spanku_zeny_bin, rwidth=0.95)
+    ax.axvline(delky_spanku_zeny_prumer, color="red", linestyle="--", label=f"průměr: {delky_spanku_zeny_prumer:.2f}")
+    ax.axvline(delky_spanku_zeny_median, color="purple", linestyle="--", label=f"median: {delky_spanku_zeny_median:.2f}")
+    ax.set(xlabel="hodiny", ylabel="počet lidí")
+    ax.legend()
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+    graphs.delky_spanku_hist_zeny = uri
+
+    # delka spanku grafy všichni
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+
+    sns.distplot(delky_spanku, hist=False, kde_kws={'shade': True, 'linewidth': 3}, label="Všichni", color="green", ax=ax)
+    ax.set(xlabel="hodiny", ylabel="hustota pravděpodobnosti")
+    ax.legend()
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+
+    graphs.delky_spanku_graph = uri
+
+    # delky spanku grafy muži a ženy
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+
+    sns.distplot(delky_spanku_muzi, hist=False, kde_kws={'shade': True, 'linewidth': 3}, label='Muži', color="blue", ax=ax)
+    sns.distplot(delky_spanku_zeny, hist=False, kde_kws={'shade': True, 'linewidth': 3}, label='Ženy', color="red", ax=ax)
+    ax.set(xlabel="hodiny", ylabel="hustota pravděpodobnosti")
+    ax.legend()
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+
+    graphs.delky_spanku_graph_muzi_a_zeny = uri
+
+    # typy mobilů koláčový graf
+
+    fig = plt.figure(figsize=(5, 5))
+    patches, texts = plt.pie(procenta_typy_mobilu)
+    plt.legend(patches, nazvy_typy_mobilu)
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+    graphs.typy_mobilu_kolac = uri
+
     graphs.save()

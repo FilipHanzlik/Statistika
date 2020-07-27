@@ -1,8 +1,176 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="row">
+    <div class="col s6 m6">
+        <div class="card blue">
+            <div class="card-content">
+                <span class="card-title center white-text">Poměr mužů a žen</span>
+            </div>
+            <div class="card-tabs">
+                <ul class="tabs tabs-fixed-width tabs-transparent">
+                    <li class="tab"><a href="#kolac_pohlavi">Koláčový graf</a></li>
+                    <li class="tab"><a href="#kolac_hist">Sloupcový graf</a></li>
+                </ul>
+            </div>
+            <div class="card-content">
+                <div id="kolac_pohlavi">
+                    <div class="card-image">
+                        <img src="data:image/png;base64,{{ pohlavi_kolac }}">
+                    </div>
+                </div>
+                <div id="kolac_hist">
+                    <div class="card-image">
+                        <img src="data:image/png;base64,{{ pohlavi_hist }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<img src="data:image/png;base64,{{ vysky_hist }}">
-<img src="data:image/png;base64,{{ vysky_cary }}">
+    <div class="col s6 m6">
+        <div class="card blue">
+            <div class="card-content">
+                <span class="card-title center white-text">Typy mobilů</span>
+            </div>
+            <div class="card-tabs">
+                <ul class="tabs tabs-fixed-width tabs-transparent">
+                    <li class="tab"><a href="#kolac_typy_mobilu"></a></li>
+                </ul>
+            </div>
+            <div class="card-content">
+                <div id="kolac_typy_mobilu">
+                    <div class="card-image">
+                        <img src="data:image/png;base64,{{ typy_mobilu_kolac }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col 6 m6">
+        <div class="card blue">
+            <div class="card-content white-text">
+                <span class="card-title center">Výšky</span>
+            </div>
+            <div class="card-tabs">
+                 <ul class="tabs tabs-fixed-width tabs-transparent">
+                     <li class="tab"><a href="#vysky_hist_vsichni">Všichni</a></li>
+                     <li class="tab"><a href="#vysky_hist_muzi">Muži</a></li>
+                     <li class="tab"><a href="#vysky_hist_zeny">Ženy</a></li>
+                 </ul>
+            </div>
+            <div class="card-content">
+                <div id="vysky_hist_vsichni">
+                    <div class="card-image">
+                        <img src="data:image/png;base64,{{ vysky_hist }}">
+                    </div>
+                </div>
+                <div id="vysky_hist_muzi">
+                    <div class="card-image">
+                        <img src="data:image/png;base64,{{ vysky_hist_muzi }}">
+                    </div>
+                </div>
+                <div id="vysky_hist_zeny">
+                    <div class="card-image">
+                        <img src="data:image/png;base64,{{ vysky_hist_zeny }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col s6 m6">
+        <div class="card blue">
+            <div class="card-content white-text">
+                <span class="card-title center">Výšky</span>
+            </div>
+            <div class="card-tabs">
+                 <ul class="tabs tabs-fixed-width tabs-transparent">
+                     <li class="tab"><a href="#vysky_grafy_vsichni">Všichni</a></li>
+                     <li class="tab"><a href="#vysky_grafy_muzi_a_zeny">Muži a Ženy</a></li>
+                 </ul>
+            </div>
+            <div class="card-content">
+                <div id="vysky_grafy_vsichni">
+                    <div class="card-image">
+                        <img src="data:image/png;base64,{{ vysky_grafy }}">
+                    </div>
+                </div>
+                <div id="vysky_grafy_muzi_a_zeny">
+                    <div class="card-image">
+                        <img src="data:image/png;base64,{{ vysky_grafy_muzi_a_zeny }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s6 m6">
+        <div class="card blue">
+            <div class="card-content white-text">
+                <span class="card-title center">Delka Spánku</span>
+            </div>
+
+            <div class="card-tabs">
+                <ul class="tabs tabs-fixed-width tabs-transparent">
+                    <li class="tab"><a href="#delky_spanku_hist_vsichni">Všichni</a></li>
+                    <li class="tab"><a href="#delky_spanku_hist_muzi">Muži</a></li>
+                    <li class="tab"><a href="#delky_spanku_hist_zeny">Ženy</a></li>
+                </ul>
+            </div>
+
+            <div class="card-content">
+                <div id="delky_spanku_hist_vsichni">
+                    <div class="card-image">
+                        <img src="data:image/png;base64,{{ delky_spanku_hist }}">
+                    </div>
+                </div>
+                <div id="delky_spanku_hist_muzi">
+                    <div class="card-image">
+                        <img src="data:image/png;base64,{{ delky_spanku_hist_muzi }}">
+                    </div>
+                </div>
+                <div id="delky_spanku_hist_zeny">
+                    <div class="card-image">
+                        <img src="data:image/png;base64,{{ delky_spanku_hist_zeny }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col s6 m6">
+        <div class="card blue">
+            <div class="card-content white-text">
+                <span class="card-title center">Delka Spánku</span>
+            </div>
+
+            <div class="card-tabs">
+                <ul class="tabs tabs-fixed-width tabs-transparent">
+                    <li class="tab"><a href="#delky_spanku_graf_vsichni">Všichni</a></li>
+                    <li class="tab"><a href="#delky_spanku_graf_muzi_a_zeny">Muži a Ženy</a></li>
+                </ul>
+            </div>
+
+            <div class="card-content">
+                <div id="delky_spanku_graf_vsichni">
+                    <div class="card-image">
+                        <img src="data:image/png;base64,{{ delky_spanku_grafy }}">
+                    </div>
+                </div>
+                <div id="delky_spanku_graf_muzi_a_zeny">
+                    <div class="card-image">
+                        <img src="data:image/png;base64,{{ delky_spanku_grafy_muzi_a_zeny }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
