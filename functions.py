@@ -2,10 +2,13 @@ import numpy as np
 import pandas as pd
 import io
 import urllib, base64
+import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 from myapp.models import Data, Graphs
+import datetime
 
+matplotlib.use('Agg')
 
 def validate_form_input(dict):
 
@@ -76,7 +79,7 @@ def validate_form_input(dict):
 
 
 def create_graphs():
-    df = pd.DataFrame(list(Data.objects.all().values('pohlavi', 'vyska', 'delkaspanku', 'TypMobilu', 'CasNaSocialnich')))
+    df = pd.DataFrame(list(Data.objects.all().values()))
 
     ## uspořádání dat a potřebných proměnných
 
@@ -158,22 +161,62 @@ def create_graphs():
     for typ_mobilu in typy_mobilu:
         typy_mobilu_a_jejich_pocty[typ_mobilu] = odpovedi_pro_typy_mobilu.count(typ_mobilu)
 
+    print()
+
     nazvy_typy_mobilu = sorted(typy_mobilu_a_jejich_pocty, key=typy_mobilu_a_jejich_pocty.get, reverse=True) # seřadí slovník podle počtu výskytů a vrátí seznam názvů
+    serazeni_typy_mobilu = nazvy_typy_mobilu[:]
     procenta_typy_mobilu = []
 
     for typ_mobilu in nazvy_typy_mobilu:
         procenta_typy_mobilu.append(round((typy_mobilu_a_jejich_pocty[typ_mobilu] / sum(typy_mobilu_a_jejich_pocty.values()))*100, 2))
-
     for i in range(len(nazvy_typy_mobilu)):
         nazvy_typy_mobilu[i] = f"{nazvy_typy_mobilu[i]} ({procenta_typy_mobilu[i]}%)"
+    print('---------------')
+    print(serazeni_typy_mobilu)
+    print(typy_mobilu_a_jejich_pocty)
+    print(procenta_typy_mobilu)
+    print('---------------')
+    print()
 
     # Cas na soc. sítích všichni
 
     cas_na_soc = df['CasNaSocialnich']
     cas_na_soc_prumer, cas_na_soc_median = np.mean(cas_na_soc), np.median(cas_na_soc)
     cas_na_soc_bin = 20
+    if abs(cas_na_soc_median - cas_na_soc_prumer) < 0.5:
+        if cas_na_soc_median < cas_na_soc_prumer:
+            cas_na_soc_prumer += 0.5 - abs(cas_na_soc_median - cas_na_soc_prumer)
+        else:
+            cas_na_soc_prumer -= 0.5 - abs(cas_na_soc_median - cas_na_soc_prumer)
 
+    # Čas na soc. sítích muži
 
+    cas_na_soc_muzi = df.loc[df['pohlavi'] == 'muz', ['CasNaSocialnich']]['CasNaSocialnich'].to_numpy()
+    cas_na_soc_muzi_prumer, cas_na_soc_muzi_median = np.mean(cas_na_soc_muzi), np.median(cas_na_soc_muzi)
+    cas_na_soc_muzi_bin = min(20, len(cas_na_soc_muzi) // 2)
+    if abs(cas_na_soc_muzi_median - cas_na_soc_muzi_prumer) < 0.5:
+        if cas_na_soc_muzi_median < cas_na_soc_muzi_prumer:
+            cas_na_soc_muzi_prumer += 0.5 - abs(cas_na_soc_muzi_median - cas_na_soc_muzi_prumer)
+        else:
+            cas_na_soc_muzi_prumer -= 0.5 - abs(cas_na_soc_muzi_median - cas_na_soc_muzi_prumer)
+
+    # Čas na soc. sítích ženy
+
+    cas_na_soc_zeny = df.loc[df['pohlavi'] == 'zena', ['CasNaSocialnich']]['CasNaSocialnich'].to_numpy()
+    cas_na_soc_zeny_prumer, cas_na_soc_zeny_median = np.mean(cas_na_soc_zeny), np.median(cas_na_soc_zeny)
+    cas_na_soc_zeny_bin = min(20, len(cas_na_soc_zeny) // 2)
+    if abs(cas_na_soc_zeny_median - cas_na_soc_zeny_prumer) < 0.5:
+        if cas_na_soc_zeny_median < cas_na_soc_zeny_prumer:
+            cas_na_soc_zeny_prumer += 0.5 - abs(cas_na_soc_zeny_median - cas_na_soc_zeny_prumer)
+        else:
+            cas_na_soc_zeny_prumer -= 0.5 - abs(cas_na_soc_zeny_median - cas_na_soc_zeny_prumer)
+
+    # casy vstavani
+
+    casy_vstavani_bez_datumu = df['casvstavani']
+    tday = datetime.date.today()
+    casy_vstavani = [datetime.datetime(tday.year, tday.month, tday.day, cas.hour, cas.minute, cas.second) for cas in casy_vstavani_bez_datumu]
+    print(casy_vstavani)
 
     ## grafy
 
@@ -188,8 +231,9 @@ def create_graphs():
     uri = urllib.parse.quote(string)
 
     graphs.pohlavi_kolac = uri
+    plt.close(fig)
 
-    # histogram pohlavi
+    # sloupcovi graf pohlavi pohlavi
 
     fig, ax = plt.subplots(figsize=(10, 10))
     ax.bar(["Muži", "Ženy"], [pocet_muzu, pocet_zen], color=["blue", "orange"])
@@ -202,6 +246,7 @@ def create_graphs():
     uri = urllib.parse.quote(string)
 
     graphs.pohlavi_hist = uri
+    plt.close(fig)
 
     # histogram vysky muži
 
@@ -219,6 +264,7 @@ def create_graphs():
     uri = urllib.parse.quote(string)
 
     graphs.vysky_hist_muzi = uri
+    plt.close(fig)
 
     # histogram vysky ženy
 
@@ -236,6 +282,7 @@ def create_graphs():
     uri = urllib.parse.quote(string)
 
     graphs.vysky_hist_zeny = uri
+    plt.close(fig)
 
     # histogram všichni
     fig, ax = plt.subplots(figsize=(10, 10))
@@ -252,6 +299,7 @@ def create_graphs():
     uri = urllib.parse.quote(string)
 
     graphs.vysky_hist = uri
+    plt.close(fig)
 
     # křivky výšky všichni
 
@@ -267,6 +315,7 @@ def create_graphs():
     uri = urllib.parse.quote(string)
 
     graphs.vysky_graph = uri
+    plt.close(fig)
 
     # křivky výšky muži a ženy
 
@@ -283,6 +332,7 @@ def create_graphs():
     uri = urllib.parse.quote(string)
 
     graphs.vysky_graph_muzi_a_zeny = uri
+    plt.close(fig)
 
     # delka_spanku histopgramy všichni
 
@@ -301,6 +351,7 @@ def create_graphs():
     uri = urllib.parse.quote(string)
 
     graphs.delky_spanku_hist = uri
+    plt.close(fig)
 
     # delka_spanku histopgramy muži
 
@@ -319,14 +370,15 @@ def create_graphs():
     uri = urllib.parse.quote(string)
 
     graphs.delky_spanku_hist_muzi = uri
+    plt.close(fig)
 
     # delka_spanku histopgramy ženy
 
     fig, ax = plt.subplots(figsize=(10, 10))
 
     ax.hist(delky_spanku_zeny, delky_spanku_zeny_bin, rwidth=0.95)
-    ax.axvline(delky_spanku_zeny_prumer, color="red", linestyle="--", label=f"průměr: {delky_spanku_zeny_prumer:.2f}")
-    ax.axvline(delky_spanku_zeny_median, color="purple", linestyle="--", label=f"median: {delky_spanku_zeny_median:.2f}")
+    ax.axvline(delky_spanku_zeny_prumer, color="red", linestyle="--", label=f"Průměr: {delky_spanku_zeny_prumer:.2f}")
+    ax.axvline(delky_spanku_zeny_median, color="purple", linestyle="--", label=f"Median: {delky_spanku_zeny_median:.2f}")
     ax.set(xlabel="hodiny", ylabel="počet lidí")
     ax.legend()
 
@@ -335,7 +387,10 @@ def create_graphs():
     buf.seek(0)
     string = base64.b64encode(buf.read())
     uri = urllib.parse.quote(string)
+
     graphs.delky_spanku_hist_zeny = uri
+    plt.close(fig)
+
 
     # delka spanku grafy všichni
 
@@ -352,6 +407,8 @@ def create_graphs():
     uri = urllib.parse.quote(string)
 
     graphs.delky_spanku_graph = uri
+    plt.close(fig)
+
 
     # delky spanku grafy muži a ženy
 
@@ -369,18 +426,141 @@ def create_graphs():
     uri = urllib.parse.quote(string)
 
     graphs.delky_spanku_graph_muzi_a_zeny = uri
+    plt.close(fig)
+
 
     # typy mobilů koláčový graf
 
-    fig = plt.figure(figsize=(5, 5))
-    patches, texts = plt.pie(procenta_typy_mobilu)
-    plt.legend(patches, nazvy_typy_mobilu)
+    if len(nazvy_typy_mobilu) > 2:
+        fig = plt.figure(figsize=(5, 5))
+        patches, texts = plt.pie(procenta_typy_mobilu)
+        plt.legend(patches, nazvy_typy_mobilu)
+
+        buf = io.BytesIO()
+        plt.savefig(buf, format="png")
+        buf.seek(0)
+        string = base64.b64encode(buf.read())
+        uri = urllib.parse.quote(string)
+    else:
+        fig, ax = plt.figure(figsize=(5, 5))
+        ax.pie(procenta_typy_mobilu, labels=serazeni_typy_mobilu, shadow=True, explode=[0.5, 0][:len(nazvy_typy_mobilu)], startangle=90, autopct="%1.1f%%")
+
+        buf = io.BytesIO()
+        plt.savefig(buf, format="png")
+        buf.seek(0)
+        string = base64.b64encode(buf.read())
+        uri = urllib.parse.quote(string)
+
+    graphs.typy_mobilu_kolac = uri
+    plt.close(fig)
+
+    # typy mobilu sloupcovy graf
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+    ax.bar(serazeni_typy_mobilu, [typy_mobilu_a_jejich_pocty[typ_mobilu] for typ_mobilu in serazeni_typy_mobilu],
+           color=["blue", "orange", "green", "red"][:len(serazeni_typy_mobilu)])
+
+    ax.set(ylabel="počet lidí")
 
     buf = io.BytesIO()
     plt.savefig(buf, format="png")
     buf.seek(0)
     string = base64.b64encode(buf.read())
     uri = urllib.parse.quote(string)
-    graphs.typy_mobilu_kolac = uri
+
+    graphs.typy_mobilu_hist = uri
+    plt.close(fig)
+
+
+    # histogramy cas na socialnich sitích všichni
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+    ax.hist(cas_na_soc, cas_na_soc_bin, rwidth=0.95)
+    ax.axvline(cas_na_soc_prumer, color="red", linestyle='--', label=f"Průměr: {cas_na_soc_prumer:.2f}")
+    ax.axvline(cas_na_soc_median, color="blue", linestyle='--', label=f"Median: {cas_na_soc_median:.2f}")
+    ax.set(xlabel="Čas strávení na sociálních sítích v hodinách", ylabel="počet lidí")
+    ax.legend()
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    string = base64.b64encode((buf.read()))
+    uri = urllib.parse.quote(string)
+
+    graphs.cas_na_soc_hist = uri
+    plt.close(fig)
+
+
+    # histogramy cas na socialnich sitích muži
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+    ax.hist(cas_na_soc_muzi, cas_na_soc_muzi_bin, rwidth=0.95)
+    ax.axvline(cas_na_soc_muzi_prumer, color="red", linestyle='--', label=f"Průměr: {cas_na_soc_muzi_prumer:.2f}")
+    ax.axvline(cas_na_soc_muzi_median, color="blue", linestyle='--', label=f"Median: {cas_na_soc_muzi_median:.2f}")
+    ax.set(xlabel="Čas strávení na sociálních sítích v hodinách", ylabel="počet lidí")
+    ax.legend()
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    string = base64.b64encode((buf.read()))
+    uri = urllib.parse.quote(string)
+
+    graphs.cas_na_soc_hist_muzi = uri
+    plt.close(fig)
+
+
+    # histogramy cas na socialnich sitích ženy
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+    ax.hist(cas_na_soc_zeny, cas_na_soc_zeny_bin, rwidth=0.95)
+    ax.axvline(cas_na_soc_zeny_prumer, color="red", linestyle='--', label=f"Průměr: {cas_na_soc_zeny_prumer:.2f}")
+    ax.axvline(cas_na_soc_zeny_median, color="blue", linestyle='--', label=f"Median: {cas_na_soc_zeny_median:.2f}")
+    ax.set(xlabel="Čas strávení na sociálních sítích v hodinách", ylabel="počet lidí")
+    ax.legend()
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    string = base64.b64encode((buf.read()))
+    uri = urllib.parse.quote(string)
+
+    graphs.cas_na_soc_hist_zeny = uri
+    plt.close(fig)
+
+    # grafy cas na socialnich sitích vsichni
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+    sns.distplot(cas_na_soc, hist=False, kde_kws={'shade': True, 'linewidth': 3}, label='Všichni', color="green", ax=ax)
+    ax.set(ylabel='Hustota pravděpodobnosti', xlabel="Čas strávení na sociálních sítích v hodinách")
+    ax.set_xlim(left=0)
+    ax.legend()
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    string = base64.b64encode((buf.read()))
+    uri = urllib.parse.quote(string)
+
+    graphs.cas_na_soc_graph = uri
+    plt.close(fig)
+
+    # grafy cas na socialnich sitích muži a ženy
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+    sns.distplot(cas_na_soc_muzi, hist=False, kde_kws={'shade': True, 'linewidth': 3}, label='Muži', color="blue", ax=ax)
+    sns.distplot(cas_na_soc_zeny, hist=False, kde_kws={'shade': True, 'linewidth': 3}, label='Ženy', color="red", ax=ax)
+    ax.set(ylabel='Hustota pravděpodobnosti', xlabel="Čas strávení na sociálních sítích v hodinách")
+    ax.set_xlim(left=0)
+    ax.legend()
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format="png")
+    buf.seek(0)
+    string = base64.b64encode((buf.read()))
+    uri = urllib.parse.quote(string)
+
+    graphs.cas_na_soc_graph_muzi_a_zeny = uri
+    plt.close(fig)
 
     graphs.save()

@@ -3,15 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="ad00a507-6d4d-4d95-acdc-8929d48f3c37" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/graphs/demo/hist_heights.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/graphs/demo/hist_heights_iy6tonw.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/graphs/demo/hist_heights_yezqzRG.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/myapp/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/myapp/main.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/myapp/results.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/myapp/results.html" afterDir="false" />
     </list>
@@ -48,6 +43,7 @@
       <recent name="C:\Users\Filip\vsechno\python\projects\statistika\templates\myapp\not_enough" />
     </key>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>

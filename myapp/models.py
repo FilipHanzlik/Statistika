@@ -39,4 +39,12 @@ class Graphs(models.Model):
     delky_spanku_graph = models.CharField(max_length=100000, default='default')
     delky_spanku_graph_muzi_a_zeny = models.CharField(max_length=100000, default='default')
 
+    cas_na_soc_hist = models.CharField(max_length=100000, default='default')
+    cas_na_soc_hist_muzi = models.CharField(max_length=100000, default='default')
+    cas_na_soc_hist_zeny = models.CharField(max_length=100000, default='default')
+
+    cas_na_soc_graph = models.CharField(max_length=100000, default='default')
+    cas_na_soc_graph_muzi_a_zeny = models.CharField(max_length=100000, default='default')
+
     typy_mobilu_kolac = models.CharField(max_length=100000, default='default')
+    typy_mobilu_hist = models.CharField(max_length=100000, default='default')

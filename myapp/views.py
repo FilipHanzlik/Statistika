@@ -70,6 +70,12 @@ def results(request):
             'delky_spanku_hist_zeny': graphs.delky_spanku_hist_zeny,
             'delky_spanku_grafy': graphs.delky_spanku_graph,
             'delky_spanku_grafy_muzi_a_zeny': graphs.delky_spanku_graph_muzi_a_zeny,
-            'typy_mobilu_kolac': graphs.typy_mobilu_kolac
+            'typy_mobilu_kolac': graphs.typy_mobilu_kolac,
+            'typy_mobilu_sloupcovy': graphs.typy_mobilu_hist,
+            'cas_na_soc_hist_vsichni': graphs.cas_na_soc_hist,
+            'cas_na_soc_hist_muzi': graphs.cas_na_soc_hist_muzi,
+            'cas_na_soc_hist_zeny': graphs.cas_na_soc_hist_zeny,
+            'cas_na_soc_grafy_vsichni': graphs.cas_na_soc_graph,
+            'cas_na_soc_grafy_muzi_a_zeny': graphs.cas_na_soc_graph_muzi_a_zeny
         }
         return render(request, 'myapp/results.html', context=context)
