@@ -1,6 +1,7 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from .models import Data, Graphs
+import pandas as pd
 from functions import validate_form_input, create_graphs
 
 def main(request):
@@ -42,14 +43,9 @@ def evaluate(request):
 
 
 def results(request):
-    if not len(Data.objects.all()) < 100:
-        num = 20 - len(Data.objects.all())
-        if num == 1:
-            return render(request, 'myapp/not_enough/jednotny.html')
-        elif num < 5:
-            return render(request, 'myapp/not_enough/pod_5.html', {'num': num})
-        else:
-            return render(request, 'myapp/not_enough/5_a_vic.html', {'num': num})
+    df_pohlavi = pd.DataFrame(Data.objects.all().values('pohlavi'))
+    if len(df_pohlavi[df_pohlavi['pohlavi'] == 'muz']) < 14 or len(df_pohlavi[df_pohlavi['pohlavi'] == 'zena']) < 14:
+        return render(request, 'myapp/not_enought.html')
 
     else:
         if Graphs.objects.all():
@@ -76,6 +72,11 @@ def results(request):
             'cas_na_soc_hist_muzi': graphs.cas_na_soc_hist_muzi,
             'cas_na_soc_hist_zeny': graphs.cas_na_soc_hist_zeny,
             'cas_na_soc_grafy_vsichni': graphs.cas_na_soc_graph,
-            'cas_na_soc_grafy_muzi_a_zeny': graphs.cas_na_soc_graph_muzi_a_zeny
+            'cas_na_soc_grafy_muzi_a_zeny': graphs.cas_na_soc_graph_muzi_a_zeny,
+            'cas_vstavani_hist_vsichni': graphs.cas_vstavani_hist,
+            'cas_vstavani_hist_muzi': graphs.cas_vstavani_hist_muzi,
+            'cas_vstavani_hist_zeny': graphs.cas_vstavani_hist_zeny,
+            'cas_vstavani_grafy_vsichni': graphs.cas_vstavani_graph,
+            'cas_vstavani_grafy_muzi_a_zeny': graphs.cas_vstavani_graph_muzi_a_zeny
         }
         return render(request, 'myapp/results.html', context=context)

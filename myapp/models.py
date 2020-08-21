@@ -48,3 +48,10 @@ class Graphs(models.Model):
 
     typy_mobilu_kolac = models.CharField(max_length=100000, default='default')
     typy_mobilu_hist = models.CharField(max_length=100000, default='default')
+
+    cas_vstavani_hist = models.CharField(max_length=100000, default='default')
+    cas_vstavani_hist_muzi = models.CharField(max_length=100000, default='default')
+    cas_vstavani_hist_zeny = models.CharField(max_length=100000, default='default')
+
+    cas_vstavani_graph = models.CharField(max_length=100000, default='default')
+    cas_vstavani_graph_muzi_a_zeny = models.CharField(max_length=100000, default='default')
