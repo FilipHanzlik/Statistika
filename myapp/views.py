@@ -44,7 +44,7 @@ def evaluate(request):
 
 def results(request):
     df_pohlavi = pd.DataFrame(Data.objects.all().values('pohlavi'))
-    if len(df_pohlavi[df_pohlavi['pohlavi'] == 'muz']) < 14 or len(df_pohlavi[df_pohlavi['pohlavi'] == 'zena']) < 14:
+    if len(df_pohlavi[df_pohlavi['pohlavi'] == 'muz']) < 100 or len(df_pohlavi[df_pohlavi['pohlavi'] == 'zena']) < 14:
         return render(request, 'myapp/not_enought.html')
 
     else:

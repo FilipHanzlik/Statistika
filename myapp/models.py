@@ -11,10 +11,9 @@ class Data(models.Model):
     casvstavani = models.TimeField()
     TypMobilu = models.CharField(max_length=20)
     CasNaSocialnich = models.FloatField(max_length=20)
-    SpokojenySeSkolnimSys = models.CharField(max_length=10, default="Ano")
 
     def __str__(self):
-        return f"{self.pohlavi}-{self.vek}-{self.TypMobilu}"
+        return f"{self.pohlavi}-{self.vek}-{self.vyska}-{self.delkaspanku}-{self.casvstavani}-{self.TypMobilu}-{self.CasNaSocialnich}"
 
 
 class Graphs(models.Model):

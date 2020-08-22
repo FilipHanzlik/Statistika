@@ -156,7 +156,6 @@ def create_graphs():
     for typ_mobilu in typy_mobilu:
         typy_mobilu_a_jejich_pocty[typ_mobilu] = odpovedi_pro_typy_mobilu.count(typ_mobilu)
 
-    print()
 
     nazvy_typy_mobilu = sorted(typy_mobilu_a_jejich_pocty, key=typy_mobilu_a_jejich_pocty.get, reverse=True) # seřadí slovník podle počtu výskytů a vrátí seznam názvů
     serazeni_typy_mobilu = nazvy_typy_mobilu[:]
