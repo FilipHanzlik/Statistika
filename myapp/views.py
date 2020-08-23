@@ -1,4 +1,3 @@
-from django_user_agents.utils import get_user_agent
 from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from .models import Data, Graphs
