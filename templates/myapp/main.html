@@ -3,6 +3,7 @@
 {% block title %}Statistika -- Formulář{% endblock %}
 
 {% block content %}
+<div class="container">
     <br>
     <br>
     {% if error %}
@@ -19,7 +20,7 @@
             <div class="card-panel teal lighten-2 center white-text">Základní údaje</div>
 
             <div class="row">
-                <div class="input-field col s12 m12">
+                <div class="input-field col s12">
                     <select name="pohlavi">
                         <option value="muz">Muž</option>
                         <option value="zena">Žena</option>
@@ -87,5 +88,5 @@
 
         </form>
     </div>
-
+</div>
 {% endblock content %}
