@@ -5,10 +5,7 @@ import pandas as pd
 from functions import validate_form_input, create_graphs
 
 def main(request):
-    user_agent = get_user_agent(request)
-    is_mobile = user_agent.is_mobile
-    print(is_mobile)
-    return render(request, 'myapp/main.html', {'is_mobile': is_mobile})
+    return render(request, 'myapp/main.html')
 
 
 def evaluate(request):
