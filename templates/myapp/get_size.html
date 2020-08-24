@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loading ...</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+
+    {% if success_indicator %}
+            <span>success</span>
+    {% endif %}
+    {% csrf_token %}
+    <script type="text/javascript" src="/static/js/ajax_send.js"></script>
+</body>
+</html>

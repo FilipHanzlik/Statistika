@@ -5,11 +5,17 @@ import pandas as pd
 from functions import validate_form_input, create_graphs
 
 def main(request):
-    return render(request, 'myapp/main.html')
+    return render(request, 'myapp/get_size.html')
 
+def form_c(request):
+    return render(request, 'myapp/form_c.html')
+
+def form_m(request):
+    return render(request, 'myapp/form_m.html')
 
 def evaluate(request):
     form = request.POST
+    came_from = request.META['HTTP_REFERER'].split('/')[-1]
 
     if request.method == 'POST':
         result_of_validation = validate_form_input(form)
@@ -37,7 +43,7 @@ def evaluate(request):
                 'cas_vstavani_prefilled': form['cas-vstavani'],
                 'socialne_site_prefilled': form['socialni-site']
             }
-            return render(request, 'myapp/main.html', context)
+            return render(request, f'myapp/{came_from}.html', context)
     else:
         return HttpResponseRedirect(reverse('myapp:results'))
 
