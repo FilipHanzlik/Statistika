@@ -10,24 +10,53 @@
     </head>
 
     <body>
-        <div class="row">
-            <div class="col s12 m4 offset-m4">
-                <div class="card z-depth-4">
-                    <div class="card-content teal lighten-2 black-text">
-                        <span class="card-title">Statistika</span>
-                    </div>
-                    <div class="card-content">
-                        <div class="input-field">
-                            <select name="pohlavi">
-                                <option value="muz">Muž</option>
-                                <option value="zena">Žena</option>
-                            </select>
-                            <label>Pohlaví</label>
+        <form action="{% url 'myapp:evaluate' %}">
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col s12 m4 offset-m4">
+                    <div class="card z-depth-4">
+                        <div class="card-content teal lighten-2 black-text">
+                            <span class="card-title">Statistika</span>
+                        </div>
+                        <div class="card-content">
+
+                            <div class="input-field">
+                                <select name="pohlavi">
+                                    <option value="muz">Muž</option>
+                                    <option value="zena">Žena</option>
+                                </select>
+                                <label>Pohlaví</label>
+                            </div>
+
+                            <p class="range-field">Věk:
+                                <input type="range" min="5" max="100" value="{{ vek_prefilled }}" name="vek">
+                            </p>
+
+                            <div class="input-field">
+                                <input type="text" class="{{ vyska }}" name="vyska" id="vyska" value="{{ vyska_prefilled }}">
+                                <label for="vyska">Výška (v cm)</label>
+                                <span class="helper-text" data-error="Neplatná výška" data-success=""></span>
+                            </div>
+
+                            <!-- <div class="card-panel teal lighten-2 center white-text">Spánek</div> -->
+
+                            <div class="input-field">
+                                <input id="delka-spanku" name="delka-spanku" type="text" class="{{ delka_spanku }}" value="{{ delka_spanku_prefilled }}">
+                                <label for="delka-spanku">Délka spánku za normálního pracovního dne (v hodinách)</label>
+                                <span class="helper-text" data-error="Neplatná délka spánku" data-success=""></span>
+                            </div>
+
+                            <div class="input-field">
+                                <input id="cas-vstavani" value="{{ cas_vstavani_prefilled }}" name="cas-vstavani" class="timepicker {{ cas_vstavani }}" placeholder="Čas kdy vstávám z postele za normálního pracovního dne">
+                                <span class="helper-text" data-error="Neplatný čas"></span>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
 
 
 
