@@ -7,19 +7,19 @@
 <br>
 {% if error %}
     <div class="row">
-        <div class="card-panel col s8 center red accent-4 white-text">Došlo k chybnému zadání. Některá výběrová pole se mohla resetovat!</div>
+        <div class="card-panel col s8 m6 center red accent-4 white-text">Došlo k chybnému zadání. Některá výběrová pole se mohla resetovat!</div>
     </div>
 {% endif %}
 <br>
 <br>
 <div class="row">
-    <form action="{% url 'myapp:evaluate' %}" class="col s8" method="post">
+    <form action="{% url 'myapp:evaluate' %}" class="col s8 m6" method="post">
         {% csrf_token %}
 
         <div class="card-panel teal lighten-2 center white-text">Základní údaje</div>
 
         <div class="row">
-            <div class="input-field col s8 s12">
+            <div class="input-field col s8 m6">
                 <select name="pohlavi">
                     <option value="muz">Muž</option>
                     <option value="zena">Žena</option>
@@ -33,7 +33,7 @@
         </p>
 
         <div class="row">
-            <div class="input-field col s8">
+            <div class="input-field col s8 m6">
                 <input type="text" class="{{ vyska }}" name="vyska" id="vyska" value="{{ vyska_prefilled }}">
                 <label for="vyska">Výška (v cm)</label>
                 <span class="helper-text" data-error="Neplatná výška" data-success=""></span>
@@ -43,7 +43,7 @@
         <div class="card-panel teal lighten-2 center white-text">Spánek</div>
 
         <div class="row">
-            <div class="input-field col s8">
+            <div class="input-field col s8 m6">
                 <input id="delka-spanku" name="delka-spanku" type="text" class="{{ delka_spanku }}" value="{{ delka_spanku_prefilled }}">
                 <label for="delka-spanku">Délka spánku za normálního pracovního dne (v hodinách)</label>
                 <span class="helper-text" data-error="Neplatná délka spánku" data-success=""></span>
@@ -51,7 +51,7 @@
         </div>
 
         <div class="row">
-            <div class="input-field col s8">
+            <div class="input-field col s8 m6">
                 <input id="cas-vstavani" value="{{ cas_vstavani_prefilled }}" name="cas-vstavani" class="timepicker {{ cas_vstavani }}" placeholder="Čas kdy vstávám z postele za normálního pracovního dne">
                 <span class="helper-text" data-error="Neplatný čas"></span>
             </div>
@@ -60,7 +60,7 @@
         <div class="card-panel teal lighten-2 center white-text">Technologie</div>
 
         <div class="row">
-            <div class="input-field col s8">
+            <div class="input-field col s8 m6">
                 <select name="typ-mobilu" class="typ_mobilu">
                     <option value="Android">Android</option>
                     <option value="IOS">IOS</option>
@@ -73,7 +73,7 @@
         </div>
 
         <div class="row">
-            <div class="input-field col s8">
+            <div class="input-field col s8 m6">
                 <input class="{{ socialni_site }}" id="socialni-site" name="socialni-site" type="text" value="{{ socialne_site_prefilled }}">
                 <label for="socialni-site">Čas denně strávení na sociálních sítích (v hodinách)</label>
                 <span class="helper-text" data-success="" data-error="Neplatný čas"></span>
