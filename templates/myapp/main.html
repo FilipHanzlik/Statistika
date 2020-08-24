@@ -87,6 +87,15 @@
             <a class="btn waves-effect waves-light" href="{% url 'myapp:results' %}">Průběžná statistika</a>
 
         </form>
+
+        {% block javascript %}
+        <script>
+            var ScreenHeight = window.screen.height;
+            var ScreenWidth = window.screen.width;
+            alert(ScreenWidth + 'x' + ScreenHeight)
+        </script>
+        {% endblock javascript %}
+
     </div>
 </div>
 {% endblock content %}
