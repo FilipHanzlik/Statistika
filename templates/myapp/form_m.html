@@ -43,14 +43,35 @@
 
                             <div class="input-field">
                                 <input id="delka-spanku" name="delka-spanku" type="text" class="{{ delka_spanku }}" value="{{ delka_spanku_prefilled }}">
-                                <label for="delka-spanku">Délka spánku za normálního pracovního dne (v hodinách)</label>
+                                <label for="delka-spanku">Průměrna délka spánku (v hodinách)</label>
                                 <span class="helper-text" data-error="Neplatná délka spánku" data-success=""></span>
                             </div>
 
                             <div class="input-field">
-                                <input id="cas-vstavani" value="{{ cas_vstavani_prefilled }}" name="cas-vstavani" class="timepicker {{ cas_vstavani }}" placeholder="Čas kdy vstávám z postele za normálního pracovního dne">
+                                <input id="cas-vstavani" value="{{ cas_vstavani_prefilled }}" name="cas-vstavani" class="timepicker {{ cas_vstavani }}" placeholder="Čas kdy vstávám z postele v pracovní den">
                                 <span class="helper-text" data-error="Neplatný čas"></span>
                             </div>
+
+                            <div class="input-field col s12">
+                                <select name="typ-mobilu" class="typ_mobilu">
+                                    <option value="Android">Android</option>
+                                    <option value="IOS">IOS</option>
+                                    <option value="tlačítkový">Tlačítkový</option>
+                                    <option value="jiny">Jiný</option>
+                                    <option value="nemá mobil">Nemam mobil</option>
+                                </select>
+                                <label>Typ mobilu</label>
+                            </div>
+
+                            <div class="input-field col s12">
+                                <input class="{{ socialni_site }}" id="socialni-site" name="socialni-site" type="text" value="{{ socialne_site_prefilled }}">
+                                <label for="socialni-site">Čas denně strávení na sociálních sítích (v hodinách)</label>
+                                <span class="helper-text" data-success="" data-error="Neplatný čas"></span>
+                            </div>
+
+                            <button class="btn waves-effect waves-light" type="submit">Odeslat
+                                <i class="material-icons right">send</i>
+                            </button>
 
                         </div>
                     </div>
