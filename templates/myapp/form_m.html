@@ -29,6 +29,7 @@
                                 <label>Pohlaví</label>
                             </div>
 
+                            <br>
                             <p class="range-field">Věk:
                                 <input type="range" min="5" max="100" value="{{ vek_prefilled }}" name="vek">
                             </p>
@@ -71,9 +72,15 @@
                                 <span class="helper-text" data-success="" data-error="Neplatný čas"></span>
                             </div>
 
-                            <button class="btn waves-effect waves-light" type="submit">Odeslat
-                                <i class="material-icons right">send</i>
-                            </button>
+                            <div class="col s6">
+                                <button class="btn waves-effect waves-light" type="submit">Odeslat
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+
+                            <div class="col s6">
+                                <a class="btn waves-effect waves-light" href="{% url 'myapp:results' %}">Průběžná statistika</a>
+                            </div>
 
                         </div>
                     </div>
