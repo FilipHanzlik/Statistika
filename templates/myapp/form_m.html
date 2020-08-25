@@ -10,7 +10,7 @@
     </head>
 
     <body>
-        <form action="{% url 'myapp:evaluate' %}">
+        <form action="{% url 'myapp:evaluate' %}" method="post">
             {% csrf_token %}
 
             <div class="row">

@@ -14,10 +14,10 @@ def form_m(request):
     return render(request, 'myapp/form_m.html')
 
 def evaluate(request):
-    form = request.POST
     came_from = request.META['HTTP_REFERER'].split('/')[-1]
 
     if request.method == 'POST':
+        form = request.POST
         result_of_validation = validate_form_input(form)
         if result_of_validation[0]:
             Data.objects.create(
