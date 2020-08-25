@@ -50,6 +50,7 @@ def evaluate(request):
 
 def results(request):
     came_from = request.META['HTTP_REFERER'].split('/')[-1]
+    print(came_from)
     if came_from[:5] == 'form':
         type = came_from[-1]
     else:
