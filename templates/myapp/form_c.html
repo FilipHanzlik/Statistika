@@ -14,7 +14,7 @@
     <br>
     <br>
     <div class="row">
-        <form action="{% url 'myapp:evaluate' %}" class="col s12" method="post">
+        <form action="{% url 'myapp:evaluate' %}" class="col s12" method="post" autocomplete="off">
             {% csrf_token %}
 
             <div class="card-panel teal lighten-2 center white-text">Základní údaje</div>

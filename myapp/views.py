@@ -29,7 +29,7 @@ def evaluate(request):
                 TypMobilu=form['typ-mobilu'],
                 CasNaSocialnich=form['socialni-site'].replace(',', '.')
             )
-            return HttpResponseRedirect(reverse('myapp:results'))
+            return HttpResponseRedirect(f"results?t={came_from[-1]}")
         else:
             context = {
                 'error': True,
@@ -45,13 +45,17 @@ def evaluate(request):
             }
             return render(request, f'myapp/{came_from}.html', context)
     else:
-        return HttpResponseRedirect(reverse('myapp:results'))
+        return HttpResponseRedirect(reverse('myapp:main'))
 
 
 def results(request):
+    type = request.GET['t']
     df_pohlavi = pd.DataFrame(Data.objects.all().values('pohlavi'))
-    if len(df_pohlavi[df_pohlavi['pohlavi'] == 'muz']) < 14 or len(df_pohlavi[df_pohlavi['pohlavi'] == 'zena']) < 14:
-        return render(request, 'myapp/not_enought.html')
+    if len(df_pohlavi[df_pohlavi['pohlavi'] == 'muz']) < 140 or len(df_pohlavi[df_pohlavi['pohlavi'] == 'zena']) < 14:
+        if type == 'm':
+            return render(request, 'myapp/not_enought_m.html')
+        else:
+            return render(request, 'myapp/not_enought_c.html')
 
     else:
         if Graphs.objects.all():
