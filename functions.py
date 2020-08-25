@@ -246,7 +246,7 @@ def create_graphs():
 
     # kolacovy graf pohlavi
     fig, ax = plt.subplots(figsize=(5, 5))
-    ax.pie(procenta_pohlavi, labels=nazvy_kolac_pohlavi, shadow=True, explode=[0.005, 0], startangle=90, autopct="%1.1f%%")
+    ax.pie(procenta_pohlavi, labels=nazvy_kolac_pohlavi, shadow=True, explode=[0.05, 0], startangle=90, autopct="%1.1f%%")
 
     buf = io.BytesIO()
     plt.savefig(buf, format="png")
@@ -469,7 +469,7 @@ def create_graphs():
         uri = urllib.parse.quote(string)
     else:
         fig, ax = plt.subplots(figsize=(5, 5))
-        ax.pie(procenta_typy_mobilu, labels=serazeni_typy_mobilu, shadow=True, explode=[0.5, 0][:len(nazvy_typy_mobilu)], startangle=90, autopct="%1.1f%%")
+        ax.pie(procenta_typy_mobilu, labels=serazeni_typy_mobilu, shadow=True, explode=[0.05, 0][:len(nazvy_typy_mobilu)], startangle=90, autopct="%1.1f%%")
 
         buf = io.BytesIO()
         plt.savefig(buf, format="png")
