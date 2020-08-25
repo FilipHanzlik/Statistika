@@ -49,7 +49,11 @@ def evaluate(request):
 
 
 def results(request):
-    type = request.GET['t']
+    came_from = request.META['HTTP_REFERER'].split('/')[-1]
+    if came_from[:5] == 'form':
+        type = came_from[-1]
+    else:
+        type = request.GET['t']
     df_pohlavi = pd.DataFrame(Data.objects.all().values('pohlavi'))
     if len(df_pohlavi[df_pohlavi['pohlavi'] == 'muz']) < 140 or len(df_pohlavi[df_pohlavi['pohlavi'] == 'zena']) < 14:
         if type == 'm':
