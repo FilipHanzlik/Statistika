@@ -246,7 +246,7 @@ def create_graphs():
 
     # kolacovy graf pohlavi
     fig, ax = plt.subplots(figsize=(5, 5))
-    ax.pie(procenta_pohlavi, labels=nazvy_kolac_pohlavi, shadow=True, explode=[0.05, 0], startangle=90, autopct="%1.1f%%")
+    ax.pie(procenta_pohlavi, labels=nazvy_kolac_pohlavi, shadow=True, explode=[0.005, 0], startangle=90, autopct="%1.1f%%")
 
     buf = io.BytesIO()
     plt.savefig(buf, format="png")
