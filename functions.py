@@ -468,7 +468,7 @@ def create_graphs():
         string = base64.b64encode(buf.read())
         uri = urllib.parse.quote(string)
     else:
-        fig, ax = plt.figures(figsize=(5, 5))
+        fig, ax = plt.subplots(figsize=(5, 5))
         ax.pie(procenta_typy_mobilu, labels=serazeni_typy_mobilu, shadow=True, explode=[0.5, 0][:len(nazvy_typy_mobilu)], startangle=90, autopct="%1.1f%%")
 
         buf = io.BytesIO()

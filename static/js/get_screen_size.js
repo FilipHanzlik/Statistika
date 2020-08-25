@@ -1,5 +1,4 @@
 $( document ).ready(function(){
-    alert('WTF')
     var ScreenHeight = window.screen.height;
     var ScreenWidth = window.screen.width;
 
